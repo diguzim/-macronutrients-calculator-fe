@@ -1,0 +1,1 @@
+- Adicionar cache (@emotion/cache) para evitar que o emotion recrie os estilos

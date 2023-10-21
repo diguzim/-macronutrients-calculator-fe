@@ -1,8 +1,5 @@
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
+import { Box } from '@mui/material';
+import ThemeRegistry from '../components/ThemeRegistry/ThemeRegistry';
 
 export default function RootLayout({
   children,
@@ -11,7 +8,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ThemeRegistry options={{ key: 'mui' }}>
+          <Box component="main" sx={{
+            flexGrow: 1,
+            mx: ['16px', '120px'],
+            my: ['80px', '120px']
+          }}>
+            {children}
+          </Box>
+        </ThemeRegistry>
+      </body>
     </html>
   )
 }
