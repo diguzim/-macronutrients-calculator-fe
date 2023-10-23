@@ -1,5 +1,12 @@
 import { Box } from '@mui/material';
 import ThemeRegistry from '../components/ThemeRegistry/ThemeRegistry';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'MaCal - Macronutrients Calculator',
+  description: 'MaCal - Macronutrients Calculator',
+  keywords: 'MaCal - Macronutrients Calculator',
+}
 
 export default function RootLayout({
   children,
