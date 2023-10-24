@@ -4,6 +4,7 @@ export type NutritionalEntityProps = {
   id?: string;
   name?: string;
   type?: NutritionalEntityType;
+  protein_ratio?: number;
   fat_ratio?: number;
   carbohydrate_ratio?: number;
   fiber_ratio?: number;
