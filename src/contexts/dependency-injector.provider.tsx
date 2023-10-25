@@ -1,3 +1,4 @@
+"use client"
 import { createContext, PropsWithChildren } from "react";
 import { NutritionalEntityRepository } from "../@core/domain/nutritional-entity/nutritional-entity.repository";
 import { InMemoryNutritionalEntityRepository } from "../infra/repositories/in-memory/in-memory-nutritional-entity-repository";
