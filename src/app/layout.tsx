@@ -1,4 +1,3 @@
-"use client"
 import { Box } from '@mui/material';
 import ThemeRegistry from '../components/ThemeRegistry/ThemeRegistry';
 import { Metadata } from 'next';

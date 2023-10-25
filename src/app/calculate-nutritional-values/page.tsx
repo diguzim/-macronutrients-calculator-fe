@@ -1,3 +1,4 @@
+"use client"
 import { useContext } from "react";
 import _nutritionalEntities from "./nutritional-entities";
 import { DependencyInjectorContext } from "../../contexts/dependency-injector.provider";
