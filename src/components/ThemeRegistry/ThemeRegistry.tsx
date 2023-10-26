@@ -1,11 +1,11 @@
-'use client';
-import createCache from '@emotion/cache';
-import { useServerInsertedHTML } from 'next/navigation';
-import { CacheProvider } from '@emotion/react';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme';
-import { useState } from 'react';
+"use client";
+import createCache from "@emotion/cache";
+import { useServerInsertedHTML } from "next/navigation";
+import { CacheProvider } from "@emotion/react";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "./theme";
+import { useState } from "react";
 
 export type ThemeRegistryProps = {
   options: {
@@ -14,7 +14,7 @@ export type ThemeRegistryProps = {
   children: React.ReactNode;
 };
 
-export default function ThemeRegistry(props: ThemeRegistryProps) {
+export function ThemeRegistry(props: ThemeRegistryProps) {
   const { options, children } = props;
 
   const [{ cache, flush }] = useState(() => {
@@ -42,14 +42,14 @@ export default function ThemeRegistry(props: ThemeRegistryProps) {
     if (names.length === 0) {
       return null;
     }
-    let styles = '';
+    let styles = "";
     for (const name of names) {
       styles += cache.inserted[name];
     }
     return (
       <style
         key={cache.key}
-        data-emotion={`${cache.key} ${names.join(' ')}`}
+        data-emotion={`${cache.key} ${names.join(" ")}`}
         dangerouslySetInnerHTML={{
           __html: styles,
         }}

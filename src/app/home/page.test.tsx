@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import Home from "./page";
-import '@testing-library/jest-dom'
 
 describe("Home Page", () => {
   it("should have a header", () => {

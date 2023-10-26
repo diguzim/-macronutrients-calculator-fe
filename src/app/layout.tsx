@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import ThemeRegistry from "../components/ThemeRegistry/ThemeRegistry";
 import { Metadata } from "next";
+import { ThemeRegistry } from "../components/ThemeRegistry";
 
 export const metadata: Metadata = {
   title: "MaCal - Macronutrients Calculator",
