@@ -1,31 +1,21 @@
-import { useContext, useEffect, useState } from "react";
-import { DependencyInjectorContext } from "../../contexts/dependency-injector.provider";
-import { NutritionalEntity } from "../../@core/domain/nutritional-entity/nutritional-entity.entity";
+import { ListAllNutritionalEntitiesUseCaseFactory } from "../../utils/factories/list-all-nutritional-entities-use-case.factory";
 
 async function CalculateNutritionalValues() {
-  // const { listAllNutritionalEntitiesUseCase } = useContext(DependencyInjectorContext);
+  const listAllNutritionalEntitiesUseCase =
+    ListAllNutritionalEntitiesUseCaseFactory.create();
 
-  // const [nutritionalEntities, setNutritionalEntities] = useState([] as NutritionalEntity[]);
-
-  // useEffect(() => {
-  //   const fetchNutritionalEntities = async () => {
-  //     const listAllNutritionalEntitiesUseCaseResult = await listAllNutritionalEntitiesUseCase.execute();
-  //     setNutritionalEntities(listAllNutritionalEntitiesUseCaseResult);
-  //   };
-
-  //   fetchNutritionalEntities();
-  // });
+  const nutritionalEntities = await listAllNutritionalEntitiesUseCase.execute();
 
   return (
     <>
       <h1>Calculate nutritional values</h1>
-      {/* <ul>
+      <ul>
         {nutritionalEntities.map((nutritionalEntity) => (
           <li key={`${nutritionalEntity.type}-${nutritionalEntity.id}`}>
             {nutritionalEntity.name}
           </li>
         ))}
-      </ul> */}
+      </ul>
     </>
   );
 }
