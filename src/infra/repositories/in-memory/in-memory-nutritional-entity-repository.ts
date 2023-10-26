@@ -4,7 +4,9 @@ import {
   nutritionalEntity1,
   nutritionalEntity2,
 } from "../../../utils/fake_data/fake-nutritional-entity";
+import { injectable } from "inversify";
 
+@injectable()
 export class InMemoryNutritionalEntityRepository
   implements NutritionalEntityRepository
 {
