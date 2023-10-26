@@ -1,3 +1,4 @@
+import { TextInput } from "../../components/TextInput";
 import { ListAllNutritionalEntitiesUseCaseFactory } from "../../utils/factories/list-all-nutritional-entities-use-case.factory";
 
 async function CalculateNutritionalValues() {
@@ -22,10 +23,7 @@ async function CalculateNutritionalValues() {
         ))}
       </ul>
       <form action={onSubmit}>
-        <label htmlFor="name">Name</label>
-        <br />
-        <input type="text" name="name" />
-        <br />
+        <TextInput name="final-weight" label="Final weight" />
         <input type="submit" value="Submit" />
       </form>
     </>
