@@ -6,6 +6,11 @@ async function CalculateNutritionalValues() {
 
   const nutritionalEntities = await listAllNutritionalEntitiesUseCase.execute();
 
+  async function onSubmit(formData: FormData) {
+    "use server";
+    console.log("formData", formData);
+  }
+
   return (
     <>
       <h1>Calculate nutritional values</h1>
@@ -16,6 +21,13 @@ async function CalculateNutritionalValues() {
           </li>
         ))}
       </ul>
+      <form action={onSubmit}>
+        <label htmlFor="name">Name</label>
+        <br />
+        <input type="text" name="name" />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
     </>
   );
 }
