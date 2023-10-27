@@ -1,11 +1,10 @@
 import { TextInput } from "../../components/TextInput";
-import { ListAllNutritionalEntitiesUseCaseFactory } from "../../utils/factories/list-all-nutritional-entities-use-case.factory";
+import { getNutritionalEntities } from "./actions";
+
+export const revalidate = 0;
 
 async function CalculateNutritionalValues() {
-  const listAllNutritionalEntitiesUseCase =
-    ListAllNutritionalEntitiesUseCaseFactory.create();
-
-  const nutritionalEntities = await listAllNutritionalEntitiesUseCase.execute();
+  const nutritionalEntities = await getNutritionalEntities();
 
   async function onSubmit(formData: FormData) {
     "use server";
