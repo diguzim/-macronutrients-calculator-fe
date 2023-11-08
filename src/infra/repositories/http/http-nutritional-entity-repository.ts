@@ -2,7 +2,7 @@ import { NutritionalEntityRepository } from "../../../@core/domain/nutritional-e
 import { NutritionalEntity } from "../../../@core/domain/nutritional-entity/nutritional-entity.entity";
 import { injectable } from "inversify";
 
-const BASE_URL = "http://localhost:3000/nutritional-entities";
+const BASE_URL = `${process.env.BACKEND_URL}/nutritional-entities`;
 
 @injectable()
 export class HttpNutritionalEntityRepository
