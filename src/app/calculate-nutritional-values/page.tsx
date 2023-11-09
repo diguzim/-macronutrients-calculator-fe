@@ -1,5 +1,5 @@
-import { TextInput } from "../../components/TextInput";
 import { getNutritionalEntities } from "./actions";
+import { NutrientsForm } from "./nutrientsForm";
 
 export const revalidate = 0;
 
@@ -21,10 +21,7 @@ async function CalculateNutritionalValues() {
           </li>
         ))}
       </ul>
-      <form action={onSubmit}>
-        <TextInput name="final-weight" label="Final weight" />
-        <input type="submit" value="Submit" />
-      </form>
+      <NutrientsForm onSubmit={onSubmit} />
     </>
   );
 }
