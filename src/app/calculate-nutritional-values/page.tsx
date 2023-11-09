@@ -12,7 +12,7 @@ async function CalculateNutritionalValues() {
   }
 
   return (
-    <>
+    <div style={{ width: "800px", margin: "auto" }}>
       <h1>Calculate nutritional values</h1>
       <ul>
         {nutritionalEntities.map((nutritionalEntity) => (
@@ -22,7 +22,7 @@ async function CalculateNutritionalValues() {
         ))}
       </ul>
       <NutrientsForm onSubmit={onSubmit} />
-    </>
+    </div>
   );
 }
 

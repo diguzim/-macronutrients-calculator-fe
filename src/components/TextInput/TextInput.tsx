@@ -1,9 +1,6 @@
 import { TextField, TextFieldProps } from "@mui/material";
 
-export type TextInputProps = TextFieldProps & {
-  label: string;
-  name: string;
-};
+export type TextInputProps = TextFieldProps & {};
 
 export function TextInput(props: TextInputProps) {
   return (
