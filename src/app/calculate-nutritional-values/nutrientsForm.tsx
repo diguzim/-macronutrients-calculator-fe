@@ -7,12 +7,21 @@ type NutrientsFormProps = {
   onSubmit: (formData: FormData) => Promise<void>;
 };
 
+function isStringNumeric(str: string) {
+  return /^\d+$/.test(str);
+}
+
 export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
   const [finalWeight, setFinalWeight] = useState(0);
 
   function handleFinalWeightChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
-    setFinalWeight(Number(value));
+
+    if (value === "") {
+      setFinalWeight(0);
+    } else if (isStringNumeric(value)) {
+      setFinalWeight(Number(value));
+    }
   }
 
   return (
