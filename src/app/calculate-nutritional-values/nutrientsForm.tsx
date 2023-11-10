@@ -1,16 +1,12 @@
 "use client";
 
-import { use, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { TextInput } from "../../components/TextInput";
-import { NutritionalEntity } from "../../@core/domain/nutritional-entity/nutritional-entity.entity";
+import { isNumeric } from "../../utils/numeric/isNumeric";
 
 type NutrientsFormProps = {
   onSubmit: (formData: FormData) => Promise<void>;
 };
-
-function isStringNumeric(str: string) {
-  return /^\d+$/.test(str);
-}
 
 function numericChangeHandler(
   event: React.ChangeEvent<HTMLInputElement>,
@@ -20,7 +16,7 @@ function numericChangeHandler(
 
   if (value === "") {
     setter(0);
-  } else if (isStringNumeric(value)) {
+  } else if (isNumeric(value)) {
     setter(Number(value));
   }
 }
