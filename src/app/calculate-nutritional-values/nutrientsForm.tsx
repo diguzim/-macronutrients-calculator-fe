@@ -1,12 +1,9 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { TextInput } from "../../components/TextInput";
 import { isNumeric } from "../../utils/numeric/isNumeric";
-
-type NutrientsFormProps = {
-  onSubmit: (formData: FormData) => Promise<void>;
-};
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 function numericChangeHandler(
   event: React.ChangeEvent<HTMLInputElement>,
@@ -27,6 +24,10 @@ interface NutritionalEntityWithWeight {
   weight: number;
 }
 
+type NutrientsFormProps = {
+  onSubmit: (formData: FormData) => Promise<void>;
+};
+
 export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
   const [nutritionalEntitiesWithWeight, setNutritionalEntitiesWithWeight] =
     useState<NutritionalEntityWithWeight[]>([]);
@@ -39,35 +40,43 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
     []
   );
 
-  const handleNutritionalEntityChange = useCallback(
-    (
-      entryPosition: number,
-      entryField: "id" | "name" | "weight",
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const value = event.target.value;
+  const columns: GridColDef[] = useMemo(() => {
+    return [
+      {
+        field: "name",
+        headerName: "Ingrediente",
+        editable: true,
+        sortable: false,
+        flex: 1,
+      },
+      {
+        field: "weight",
+        headerName: "Peso(g)",
+        type: "number",
+        editable: true,
+        sortable: false,
+        flex: 0.5,
+        align: "left",
+        headerAlign: "left",
+      },
+    ];
+  }, []);
 
-      setNutritionalEntitiesWithWeight((prev) =>
-        prev.map((nutritionalEntityWithWeight, index) => {
-          if (index === entryPosition) {
-            return {
-              ...nutritionalEntityWithWeight,
-              [entryField]: value,
-            };
-          }
-
-          return nutritionalEntityWithWeight;
-        })
-      );
-    },
-    []
-  );
+  const rows = useMemo(() => {
+    return nutritionalEntitiesWithWeight.map((nutritionalEntityWithWeight) => {
+      return {
+        id: nutritionalEntityWithWeight.id,
+        name: nutritionalEntityWithWeight.name,
+        weight: nutritionalEntityWithWeight.weight,
+      };
+    });
+  }, [nutritionalEntitiesWithWeight]);
 
   const addNutritionalEntity = useCallback(() => {
     setNutritionalEntitiesWithWeight([
       ...nutritionalEntitiesWithWeight,
       {
-        id: "",
+        id: `${Math.ceil(Math.random() * 10000000)}`,
         name: "",
         weight: 0,
       },
@@ -79,61 +88,9 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
       action={onSubmit}
       style={{ display: "flex", flexDirection: "column" }}
     >
-      {nutritionalEntitiesWithWeight.map(
-        (nutritionalEntityWithWeight, index) => {
-          const { name, weight } = nutritionalEntityWithWeight;
-
-          function handleNutritionalEntityNameChange(
-            event: React.ChangeEvent<HTMLInputElement>
-          ) {
-            handleNutritionalEntityChange(index, "name", event);
-          }
-
-          function handleNutritionalEntityWeightChange(
-            event: React.ChangeEvent<HTMLInputElement>
-          ) {
-            handleNutritionalEntityChange(index, "weight", event);
-          }
-
-          return (
-            <div
-              key={`${index}`}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "0.5rem",
-                  alignSelf: "center",
-                }}
-              >
-                #{index + 1}
-              </span>
-              <TextInput
-                id="nutritional-entity-name"
-                label="Nutritional entity name"
-                value={name}
-                onChange={handleNutritionalEntityNameChange}
-                style={{
-                  flex: 3,
-                  marginRight: "0.5rem",
-                }}
-              />
-              <TextInput
-                id="nutritional-entity-weight"
-                label="Nutritional entity weight"
-                value={weight}
-                onChange={handleNutritionalEntityWeightChange}
-                style={{
-                  flex: 1,
-                }}
-              />
-            </div>
-          );
-        }
-      )}
+      <DataGrid columns={columns} rows={rows} disableColumnMenu={true} />
+      {/* ToDo: check https://mui.com/x/react-data-grid/row-updates/#the-updaterows-method */}
+      {/*       as this is the solution avoid performance bottleneck */}
       <button type="button" onClick={addNutritionalEntity}>
         Add one more nutritional entity
       </button>
