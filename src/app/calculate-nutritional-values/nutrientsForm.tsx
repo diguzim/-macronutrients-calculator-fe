@@ -3,7 +3,31 @@
 import { useCallback, useMemo, useState } from "react";
 import { TextInput } from "../../components/TextInput";
 import { isNumeric } from "../../utils/numeric/isNumeric";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderEditCellParams,
+} from "@mui/x-data-grid";
+import { Autocomplete, TextField } from "@mui/material";
+import {
+  nutritionalEntity1,
+  nutritionalEntity2,
+} from "../../utils/fake_data/fake-nutritional-entity";
+
+const nutritionalEntities = [nutritionalEntity1, nutritionalEntity2];
+
+function CustomEditComponent(props: GridRenderEditCellParams) {
+  return (
+    <Autocomplete
+      options={nutritionalEntities}
+      sx={{ width: "100%" }}
+      getOptionLabel={(option) => option.name || ""}
+      renderInput={(params) => (
+        <TextField {...params} placeholder="Selecione" />
+      )}
+    />
+  );
+}
 
 function numericChangeHandler(
   event: React.ChangeEvent<HTMLInputElement>,
@@ -48,6 +72,9 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
         editable: true,
         sortable: false,
         flex: 1,
+        renderEditCell: (params: GridRenderEditCellParams) => (
+          <CustomEditComponent {...params} />
+        ),
       },
       {
         field: "weight",
@@ -88,7 +115,13 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
       action={onSubmit}
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <DataGrid columns={columns} rows={rows} disableColumnMenu={true} />
+      <DataGrid
+        columns={columns}
+        rows={rows}
+        disableColumnMenu
+        hideFooter
+        style={{ marginBottom: "1rem" }}
+      />
       {/* ToDo: check https://mui.com/x/react-data-grid/row-updates/#the-updaterows-method */}
       {/*       as this is the solution avoid performance bottleneck */}
       <button type="button" onClick={addNutritionalEntity}>
