@@ -16,6 +16,10 @@ import {
 
 const nutritionalEntities = [nutritionalEntity1, nutritionalEntity2];
 
+function CustomExibitionComponent(props: GridRenderEditCellParams) {
+  return <span>{props.value.name || "Selecione"}</span>;
+}
+
 function CustomEditComponent(props: GridRenderEditCellParams) {
   return (
     <Autocomplete
@@ -72,9 +76,8 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
         editable: true,
         sortable: false,
         flex: 1,
-        renderEditCell: (params: GridRenderEditCellParams) => (
-          <CustomEditComponent {...params} />
-        ),
+        renderCell: CustomExibitionComponent,
+        renderEditCell: CustomEditComponent,
       },
       {
         field: "weight",
