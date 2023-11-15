@@ -13,17 +13,22 @@ import {
   nutritionalEntity1,
   nutritionalEntity2,
 } from "../../utils/fake_data/fake-nutritional-entity";
+import { NutritionalEntity } from "../../@core/domain/nutritional-entity/nutritional-entity.entity";
 
 const nutritionalEntities = [nutritionalEntity1, nutritionalEntity2];
 
 function CustomExibitionComponent(props: GridRenderEditCellParams) {
-  return <span>{props.value.name || "Selecione"}</span>;
+  return <span>{props.value?.name || "Selecione"}</span>;
 }
 
-function CustomEditComponent(props: GridRenderEditCellParams) {
+function CustomEditionComponent(props: GridRenderEditCellParams) {
+  // ToDo: pegar o nutritional entities do backend
+  // ToDo: alterar após seleção de ingrediente
+
   return (
     <Autocomplete
       options={nutritionalEntities}
+      value={props.value}
       sx={{ width: "100%" }}
       getOptionLabel={(option) => option.name || ""}
       renderInput={(params) => (
@@ -46,9 +51,9 @@ function numericChangeHandler(
   }
 }
 
-interface NutritionalEntityWithWeight {
+interface NutritionalEntityCell {
   id: string | null;
-  name: string | "";
+  nutritionalEntity: NutritionalEntity | null;
   weight: number;
 }
 
@@ -57,8 +62,18 @@ type NutrientsFormProps = {
 };
 
 export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
-  const [nutritionalEntitiesWithWeight, setNutritionalEntitiesWithWeight] =
-    useState<NutritionalEntityWithWeight[]>([]);
+  const availableNutritionalEntities = nutritionalEntities;
+  const initialNutritionalEntitiesWithWeight: NutritionalEntityCell[] = [
+    {
+      id: `${Math.ceil(Math.random() * 10000000)}`,
+      nutritionalEntity: availableNutritionalEntities[0],
+      weight: 0,
+    },
+  ];
+
+  const [nutritionalEntityCells, setNutritionalEntitiesCells] = useState<
+    NutritionalEntityCell[]
+  >(initialNutritionalEntitiesWithWeight);
   const [finalWeight, setFinalWeight] = useState(0);
 
   const handleFinalWeightChange = useCallback(
@@ -71,13 +86,13 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
   const columns: GridColDef[] = useMemo(() => {
     return [
       {
-        field: "name",
+        field: "nutritionalEntity",
         headerName: "Ingrediente",
         editable: true,
         sortable: false,
         flex: 1,
         renderCell: CustomExibitionComponent,
-        renderEditCell: CustomEditComponent,
+        renderEditCell: CustomEditionComponent,
       },
       {
         field: "weight",
@@ -93,25 +108,27 @@ export function NutrientsForm({ onSubmit }: NutrientsFormProps) {
   }, []);
 
   const rows = useMemo(() => {
-    return nutritionalEntitiesWithWeight.map((nutritionalEntityWithWeight) => {
+    return nutritionalEntityCells.map((nutritionalEntityWithWeight) => {
       return {
         id: nutritionalEntityWithWeight.id,
-        name: nutritionalEntityWithWeight.name,
+        nutritionalEntity: nutritionalEntityWithWeight.nutritionalEntity,
         weight: nutritionalEntityWithWeight.weight,
       };
     });
-  }, [nutritionalEntitiesWithWeight]);
+  }, [nutritionalEntityCells]);
 
   const addNutritionalEntity = useCallback(() => {
-    setNutritionalEntitiesWithWeight([
-      ...nutritionalEntitiesWithWeight,
-      {
-        id: `${Math.ceil(Math.random() * 10000000)}`,
-        name: "",
-        weight: 0,
-      },
-    ]);
-  }, [nutritionalEntitiesWithWeight]);
+    setNutritionalEntitiesCells((prev) => {
+      return [
+        ...prev,
+        {
+          id: `${Math.ceil(Math.random() * 10000000)}`,
+          nutritionalEntity: null,
+          weight: 0,
+        },
+      ];
+    });
+  }, []);
 
   return (
     <form
